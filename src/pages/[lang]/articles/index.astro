@@ -8,8 +8,12 @@ export async function getStaticPaths() {
 
   const paths = pages.map(page => {
     const [ lang, ] = page.slug.split('/');
-    return { params: { lang }, props: page }
+    return lang
   })
+  .filter((value, index, array) => {  // filter unique values
+    return array.indexOf(value) === index;
+  })
+  .map(lang => ({ params: { lang } }))
 
   return paths;
 }
