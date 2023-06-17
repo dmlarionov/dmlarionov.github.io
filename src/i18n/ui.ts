@@ -1,5 +1,10 @@
 export type language = "en"|"ru";
 
+export const languages = {
+  en: 'English',
+  ru: 'Russian'
+}
+
 export const defaultLang: language = 'en';
 
 export const ui = {

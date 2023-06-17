@@ -1,9 +1,11 @@
 ---
+import LanguagePicker from "./LanguagePicker.astro";
 const today = new Date();
 ---
 
 <footer>
 	&copy; {today.getFullYear()} YOUR NAME HERE. All rights reserved.
+	<LanguagePicker/>
 </footer>
 <style>
 	footer {
