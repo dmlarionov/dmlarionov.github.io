@@ -1,0 +1,18 @@
+---
+import type Profile from '../models/Profile';
+import BaseHead from './BaseHead.astro';
+
+export interface Props {
+	title: string;
+	description: string;
+  profile: Profile;
+}
+
+const { title, description, profile } = Astro.props;
+---
+<BaseHead title={title} description={description} image={profile.image} type="profile" />
+
+<!-- Profile for Open Graph / Facebook -->
+<meta property="og:profile:first_name" content={profile.firstName} />
+<meta property="og:profile:last_name" content={profile.lastName} />
+<meta property="og:profile:gender" content={profile.gender} />

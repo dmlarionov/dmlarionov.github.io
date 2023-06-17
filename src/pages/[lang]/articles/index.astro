@@ -1,0 +1,39 @@
+---
+import Layout from '../../../layouts/Base.astro';
+// import FormattedDate from '../../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('articles')
+
+  const paths = pages.map(page => {
+    const [ lang, ] = page.slug.split('/');
+    return { params: { lang }, props: page }
+  })
+
+  return paths;
+}
+
+const { lang } = Astro.params;
+const pages = (await getCollection('articles'))
+.filter(p => p.slug.split('/')[0] == lang)  // filter by language
+.sort(
+  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
+---	
+<Layout>
+  <section>
+    <ul>
+      {
+        pages.map((page) => {
+          const [, ...slug] = page.slug.split('/');
+          return (
+            <li>
+              <a href={`/${lang}/articles/${slug.join('/')}/`}>{page.data.title}</a>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </section>
+</Layout>

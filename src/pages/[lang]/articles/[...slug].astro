@@ -1,0 +1,28 @@
+---
+import Layout from '../../../layouts/Base.astro';
+import { getCollection, CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('articles')
+
+  const paths = pages.map(page => {
+    const [lang, ...slug] = page.slug.split('/');
+    return { params: { lang, slug: slug.join('/') }, props: page }
+  })
+
+  return paths;
+}
+
+type Props = CollectionEntry<'articles'>;
+
+const { lang } = Astro.params;
+const page = Astro.props;
+const formattedDate = page.data.pubDate.toLocaleString(lang);
+
+const { Content } = await page.render();
+---
+<Layout>
+  <h1>{page.data.title}</h1>
+  <p>by {page.data.author} • {formattedDate}</p>
+  <Content/>
+</Layout>
